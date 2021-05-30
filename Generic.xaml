@@ -1,0 +1,203 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:l="clr-namespace:Lite.NET"
+    xmlns:r="clr-namespace:Lite.NET.Properties">
+    <Style TargetType="l:LiteWindow">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="30" CornerRadius="0" GlassFrameThickness="0"
+                              NonClientFrameEdges="None" ResizeBorderThickness="4" UseAeroCaptionButtons="False"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="DodgerBlue"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Width" Value="1280"/>
+        <Setter Property="Height" Value="720"/>
+        <Setter Property="MinWidth" Value="960"/>
+        <Setter Property="MinHeight" Value="540"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="l:LiteWindow">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}">
+                        <AdornerDecorator>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Background="{TemplateBinding BorderBrush}" TextElement.Foreground="White">
+                                    <l:LiteWindow.VisualStatesBrushes>
+                                        <l:VisualStatesBrushes MouseOverFore="White" MouseOverBack="LightSkyBlue"
+                                                               PressedBack="DeepSkyBlue" DisabledFore="White"/>
+                                    </l:LiteWindow.VisualStatesBrushes>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{TemplateBinding Icon}" Margin="2"/>
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{TemplateBinding Title}"/>
+                                    <ContentPresenter Grid.Column="2" Content="{TemplateBinding ExpansionArea}"/>
+                                    <l:LiteButton Grid.Column="3" WindowChrome.IsHitTestVisibleInChrome="True" Focusable="False" BorderThickness="0"
+                                                  Command="SystemCommands.MinimizeWindowCommand">
+                                        <Path Stroke="{Binding Foreground,RelativeSource={RelativeSource AncestorType=l:LiteButton}}" Data="M0,0 L10,0"/>
+                                    </l:LiteButton>
+                                    <l:LiteButton x:Name="ChangeWindowStateLiteButton" Grid.Column="4" WindowChrome.IsHitTestVisibleInChrome="True"
+                                                  Focusable="False" BorderThickness="0" Command="SystemCommands.MaximizeWindowCommand">
+                                        <Path Name="ChangeWindowStatePath" Data="M0,0 L8,0 L8,8 L0,8 Z"
+                                              Stroke="{Binding Foreground,RelativeSource={RelativeSource AncestorType=l:LiteButton}}"/>
+                                    </l:LiteButton>
+                                    <l:LiteButton Grid.Column="5" WindowChrome.IsHitTestVisibleInChrome="True" Focusable="False" BorderThickness="0"
+                                                  Command="SystemCommands.CloseWindowCommand">
+                                        <l:LiteButton.VisualStatesBrushes>
+                                            <l:VisualStatesBrushes MouseOverFore="Red" MouseOverBack="LightSkyBlue" PressedBack="Red"/>
+                                        </l:LiteButton.VisualStatesBrushes>
+                                        <Path Stroke="{Binding Foreground,RelativeSource={RelativeSource AncestorType=l:LiteButton}}" Data="M0,0 L8,8 M8,0 L0,8"/>
+                                    </l:LiteButton>
+                                </Grid>
+                                <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+                                <ContentPresenter Grid.RowSpan="2" Name="PART_DialogContentPresenter" Content="{x:Null}"/>
+                            </Grid>
+                        </AdornerDecorator>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter Property="BorderBrush" Value="LightSlateGray"/>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="BorderThickness" Value="8"/>
+                            <Setter Property="Data" Value="M0,0 L8,0 L8,8 L0,8 Z M2,0 L2,-2 L10,-2 L10,6 L8,6" TargetName="ChangeWindowStatePath"/>
+                            <Setter Property="Command" Value="SystemCommands.RestoreWindowCommand" TargetName="ChangeWindowStateLiteButton"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="l:LiteButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{Binding BorderBrush,RelativeSource={RelativeSource AncestorType=Window}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="l:LiteButton">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <ContentPresenter RecognizesAccessKey="True" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{Binding VisualStatesBrushes.MouseOverBack,RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="BorderBrush" Value="{Binding VisualStatesBrushes.MouseOverBorder,RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="Foreground" Value="{Binding VisualStatesBrushes.MouseOverFore,RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{Binding VisualStatesBrushes.PressedBack,RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="BorderBrush" Value="{Binding VisualStatesBrushes.PressedBorder,RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="Foreground" Value="{Binding VisualStatesBrushes.PressedFore,RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderThickness" Value="3"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{Binding VisualStatesBrushes.DisabledBack,RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="BorderBrush" Value="{Binding VisualStatesBrushes.DisabledBorder,RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="Foreground" Value="{Binding VisualStatesBrushes.DisabledFore,RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="l:LiteDialog">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="l:LiteDialog">
+                    <Border Name="PART_MaskBorder" Background="{TemplateBinding MaskBrush}">
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{TemplateBinding Background}"
+                                BorderBrush="{Binding BorderBrush,RelativeSource={RelativeSource AncestorType=Window}}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <l:LiteButton x:Name="OKLiteButton" Visibility="Collapsed" Margin="10" Content="{x:Static r:Resources.OK}" Padding="10"
+                                                  Command="l:LiteUICommands.NewDialog" CommandParameter="{x:Static l:DialogButton.OK}" Focusable="False"/>
+                                    <l:LiteButton x:Name="YesLiteButton" Visibility="Collapsed" Margin="10" Content="{x:Static r:Resources.Yes}" Padding="10"
+                                                  Command="l:LiteUICommands.NewDialog" CommandParameter="{x:Static l:DialogButton.OK}" Focusable="False"/>
+                                    <l:LiteButton x:Name="NoLiteButton" Grid.Column="1" Visibility="Collapsed" Margin="10" Content="{x:Static r:Resources.No}"
+                                                  Command="l:LiteUICommands.NewDialog" CommandParameter="{x:Static l:DialogButton.No}" Focusable="False"/>
+                                    <l:LiteButton x:Name="CancelLiteButton" Grid.Column="2" Visibility="Collapsed" Margin="10" Focusable="False"
+                                                  Content="{x:Static r:Resources.Cancel}" Command="l:LiteUICommands.NewDialog"
+                                                  CommandParameter="{x:Static l:DialogButton.None}"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="DialogButton" Value="OK">
+                            <Setter Property="Visibility" Value="Visible" TargetName="OKLiteButton"/>
+                        </Trigger>
+                        <Trigger Property="DialogButton" Value="OKCancel">
+                            <Setter Property="Visibility" Value="Visible" TargetName="OKLiteButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="CancelLiteButton"/>
+                        </Trigger>
+                        <Trigger Property="DialogButton" Value="YesNo">
+                            <Setter Property="Visibility" Value="Visible" TargetName="YesLiteButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="NoLiteButton"/>
+                        </Trigger>
+                        <Trigger Property="DialogButton" Value="YesNoCancel">
+                            <Setter Property="Visibility" Value="Visible" TargetName="YesLiteButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="NoLiteButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="CancelLiteButton"/>
+                        </Trigger>
+                        <EventTrigger RoutedEvent="Leave">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="BorderThickness" FillBehavior="Stop">
+                                            <DiscreteThicknessKeyFrame Value="3" KeyTime="0:0:0.25"/>
+                                            <DiscreteThicknessKeyFrame Value="1" KeyTime="0:0:0.50"/>
+                                            <DiscreteThicknessKeyFrame Value="3" KeyTime="0:0:0.75"/>
+                                            <DiscreteThicknessKeyFrame Value="1" KeyTime="0:0:1.00"/>
+                                        </ThicknessAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
